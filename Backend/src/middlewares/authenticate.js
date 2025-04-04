@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
-import { JWT_PASSWORD_SECRET } from "../confing";
+import { JWT_PASSWORD_SECRET } from "../confing.js";
 
 export const authenticate = (req, res, next) => {
   try {
-    const token = req.cookie.access_token;
+    const token = req.cookies.access_token;
 
   if (!token) {
     res.status(400).json({ message: "verificar la creacion del token" });
@@ -11,11 +11,12 @@ export const authenticate = (req, res, next) => {
   }
 
   const decoed = jwt.verify(token, JWT_PASSWORD_SECRET);
-  console.log(decoed);
+  console.log("decodeeeeeeeeeeeeeee", decoed);
   
   req.user = decoed
+
   next()
   } catch (error) {
-    res.status(500).json({message : "el token fallo"},error.message)
+    res.status(500).json(error.message)
   }
 };

@@ -5,7 +5,7 @@ import {
   DB_PASSWORD,
   DB_PORT,
   DB_USER,
-} from "../confing";
+} from "../confing.js";
 
 const pool = new pg.Pool({
   user: DB_USER,

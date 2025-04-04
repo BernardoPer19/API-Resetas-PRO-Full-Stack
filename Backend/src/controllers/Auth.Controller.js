@@ -1,18 +1,21 @@
-import { UserModel } from "../model/AuthModel";
-import { validateLogin, validateRegister } from "../schema/AuthSchema";
+import { AuthModel } from "../model/AuthModel.js";
+import { validateLogin, validateRegister } from "../schema/AuthSchema.js";
+
+
 
 export class AuthController {
   static async registerUser(req, res) {
     try {
-      const validate = validateRegister(req.body);
-      const { user_id, nombre, email, contraseña, fotoPerfil, creacionCuenta } =
+      const validate =  validateRegister(req.body);
+      
+      const { nombre, email, contraseña, fotoPerfil, creacionCuenta } =
         validate.data;
 
       if (!contraseña) {
         return res.status(404).json({ message: "Falta una contraseña" });
       }
 
-      const user = await UserModel.getUserByEmail(user_id);
+      const user = await AuthModel.verifyByEmail(email);
 
       if (user) {
         return res
@@ -20,8 +23,7 @@ export class AuthController {
           .json({ message: "El usuario ya esta registrado" });
       }
 
-      const newUser = await UserModel.registerUser(
-        user_id,
+      await AuthModel.registerUser(
         nombre,
         email,
         contraseña,
@@ -29,39 +31,40 @@ export class AuthController {
         creacionCuenta
       );
 
+      
+
       return res.status(201).json({
         message: "Usuario registrado",
-        user: newUser,
       });
     } catch (error) {
-      res.status(500).json(
-        {
-          message: "un error interno en el server al registrarse ",
-        },
-        error.message
-      );
+      res.status(500).json(error.message);
     }
   }
   static async loginUser(req, res) {
     try {
       const validate = validateLogin(req.body);
+      
       const { email, contraseña } = validate.data;
-      const user = await UserModel.getUserByEmail(email);
-
+      
+      const user = await AuthModel.verifyByEmail(email);
+      
       if (!contraseña) {
         return res.status(404).json({ message: "Falta una contraseña" });
       }
-
+      
+      console.log(user.contraseña);
       if (!user) {
         return res
           .status(404)
           .json({ message: "El usuario NO esta registrado" });
       }
 
-      const validPassword = UserModel.comparePassword(
+      const validPassword = await AuthModel.comparePassword(
         contraseña,
         user.contraseña
       );
+
+
 
       if (!validPassword) {
         return res.status(401).json({ message: "La contraseña es incorrecta" });

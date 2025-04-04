@@ -1,20 +1,21 @@
 import { Router } from "express";
-import { AuthController } from "../controllers/Auth.Controller";
-import { authenticateToken } from "../middlewares/authMiddleware";
-import { authenticate } from "../middlewares/authenticate";
+import { AuthController } from "../controllers/Auth.Controller.js";
+import { authenticate } from "../middlewares/authenticate.js";
 
-const router = Router();
+const AuthRouter = Router();
 
 // Register route
-router.post("/register", AuthController.registerUser);
+AuthRouter.post("/register", AuthController.registerUser);
 
 // Login route
-router.post("/login", AuthController.loginUser);
+AuthRouter.post("/login", AuthController.loginUser);
 
 // Logout route
-router.post("/logout", AuthController.logout);
+AuthRouter.get("/logout", AuthController.logout);
 
 // Protected route
-router.get("/protected", authenticate, AuthController.protectedRoute);
+AuthRouter.get("/protected", authenticate, AuthController.protectedRoute);
 
-export default router;
+export default AuthRouter;
+
+

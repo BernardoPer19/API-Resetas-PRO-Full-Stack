@@ -1,10 +1,10 @@
-import { SALTS_ROUNDS, JWT_PASSWORD_SECRET } from "../confing";
-import bycript from "bcrypt";
-import pool from "../db/db";
+import { SALTS_ROUNDS, JWT_PASSWORD_SECRET } from "../confing.js";
+import bcrypt from 'bcrypt'
+import pool from "../db/db.js";
 import jwt from "jsonwebtoken";
 
-export class UserModel {
-  static async createToken(user) {
+export class AuthModel {
+  static createToken(user) {
     try {
       const token = jwt.sign(
         {
@@ -21,20 +21,22 @@ export class UserModel {
       throw new Error("Error generating token: " + error.message);
     }
   }
+  
 
   static async hashPassword(password) {
-    const hashingPassword = await bycript.hash(password, SALTS_ROUNDS);
+    const hashingPassword = await bcrypt.hash(password, SALTS_ROUNDS);
     return hashingPassword;
   }
-  static async comparePassword(plasPassword, hashPassword) {
-    const comparingPasswords = await bycript.compare(
-      plasPassword,
-      hashPassword
-    );
-    return comparingPasswords;
+  
+  static async comparePassword(plainPassword, hashedPassword) {
+    try {
+      return await bcrypt.compare(plainPassword, hashedPassword);
+    } catch (error) {
+      throw new Error("Error comparing passwords: " + error.message);
+    }
   }
+
   static async registerUser(
-    user_id,
     nombre,
     email,
     contraseña,
@@ -42,24 +44,17 @@ export class UserModel {
     creacionCuenta
   ) {
     try {
-      const hashingPassword = this.hashPassword(contraseña);
+      const hashingPassword = await this.hashPassword(contraseña);
 
-      const query = `INSERT INTO users_tb (user_id, nombre, email, "contraseña", "fotoPerfil", "creacionCuenta") 
-                     VALUES $1, $2, $3, $4, $5,$6`;
-      const data = [
-        user_id,
-        nombre,
-        email,
-        hashingPassword,
-        fotoPerfil,
-        creacionCuenta,
-      ];
+      const query = `INSERT INTO users_tb ( nombre, email, "contraseña", "fotoPerfil", "creacionCuenta") 
+                     VALUES ($1, $2, $3, $4, $5)`;
+      const data = [nombre, email, hashingPassword, fotoPerfil, creacionCuenta];
 
-      const { rows } = pool.query(query, data);
+      const { rows } = await pool.query(query, data);
       return rows;
     } catch (error) {
       console.error(error.message);
-      throw new Error("Error al añadir un usuario en la DB");
+      throw new Error("Error al registrar en la DB", error.message);
     }
   }
 
@@ -68,7 +63,7 @@ export class UserModel {
       const query = `SELECT * FROM users_tb WHERE user_id = $1`;
       const data = [user_id];
 
-      const { rows } = pool.query(query, data);
+      const { rows } = await pool.query(query, data);
       return rows;
     } catch (error) {
       console.error(error.message);
@@ -76,21 +71,17 @@ export class UserModel {
     }
   }
 
-  static async getUserByEmail(email) {
+  static async verifyByEmail(email) {
     try {
-      const query = `SELECT * FROM users_tb WHERE email = $1`;
-      const data = [email];
-
-      const { rows } = pool.query(query, data);
-      
-      if (rows.length === 0) {
+      const query = `SELECT * FROM users_tb WHERE email = $1;`;
+      const result = await pool.query(query, [email]);
+      if (result.rows.length === 0) {
         return null;
       }
-
-      return rows[0];
+      return result.rows[0];
     } catch (error) {
-      console.error(error.message);
-      throw new Error("Error al añadir un usuario en la DB");
+      throw new Error("Error verifying email: " + error.message);
     }
   }
+
 }

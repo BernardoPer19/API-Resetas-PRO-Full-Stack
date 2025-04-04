@@ -6,7 +6,7 @@ const registerSchema = z.object({
     .string()
     .min(3, "El nombre de usuario debe tener al menos 3 caracteres."),
   email: z.string().email("Debe ser un correo electrónico válido."),
-  password: z
+  contraseña: z
     .string()
     .min(6, "La contraseña debe tener al menos 6 caracteres."),
   fotoPerfil: z.string().optional(),
@@ -15,13 +15,14 @@ const registerSchema = z.object({
 
 const loginSchema = z.object({
   email: z.string().email("Debe ser un correo electrónico válido."),
-  password: z
+  contraseña: z
     .string()
     .min(6, "La contraseña debe tener al menos 6 caracteres."),
 });
 
-export const validateRegister = (input) => {
+export const validateRegister = (data) => {
   const result = registerSchema.safeParse(data);
+  console.log(result);
 
   if (!result.success) {
     return { valid: false, errors: result.error.format() };
@@ -29,9 +30,9 @@ export const validateRegister = (input) => {
   return { valid: true, data: result.data };
 };
 
-export const validateLogin = (input) => {
+export const validateLogin = (data) => {
   const result = loginSchema.safeParse(data);
-
+  
   if (!result.success) {
     return { valid: false, errors: result.error.format() };
   }

@@ -1,6 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
+import AuthRouter from "./routes/Auth.routes.js";
 
 const app = express();
 const PORT = 3000;
@@ -10,10 +11,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("dev"));
 
-// Ruta de ejemplo
-app.get("/", (req, res) => {
-  res.send("¡Hola, mundo!");
-});
+app.use("/auth", AuthRouter)
+
 
 // Iniciar el servidor
 app.listen(PORT, () => {
