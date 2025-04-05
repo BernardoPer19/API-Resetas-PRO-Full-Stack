@@ -19,6 +19,7 @@ export const useAuth = () => {
         setUser(response);
         setIsAuthenticated(true);
       }
+      
     } catch (error) {
       if (error instanceof AxiosError) {
         throw new ValidationError(
@@ -58,5 +59,6 @@ export const useAuth = () => {
     isAuthenticated,
     error,
     setError,
+    setUser,
   };
 };

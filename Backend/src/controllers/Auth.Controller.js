@@ -33,7 +33,7 @@ export class AuthController {
         message: "Usuario registrado",
       });
     } catch (error) {
-      res.status(500).json(error.message);
+      return res.status(500).json(error.message,"aaaaa");
     }
   }
   static async loginUser(req, res) {

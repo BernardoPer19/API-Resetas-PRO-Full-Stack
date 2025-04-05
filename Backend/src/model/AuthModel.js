@@ -53,7 +53,7 @@ export class AuthModel {
       const { rows } = await pool.query(query, data);
       return rows;
     } catch (error) {
-      console.error(error.message);
+      console.error(error.message, "HEERE");
       throw new Error("Error al registrar en la DB", error.message);
     }
   }

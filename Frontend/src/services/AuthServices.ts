@@ -7,6 +7,8 @@ import handleError from "./ErrorServices";
 export const registerService = async (user: UserType): Promise<UserType> => {
   try {
     const result = await registerRequest(user);
+    console.log(result);
+    
     return result.data;
   } catch (error) {
     if (error instanceof AxiosError) {
