@@ -33,12 +33,14 @@ export class AuthController {
         message: "Usuario registrado",
       });
     } catch (error) {
-      return res.status(500).json(error.message,"aaaaa");
+      return res.status(500).json(error.message, "aaaaa");
     }
   }
   static async loginUser(req, res) {
     try {
       const validate = validateLogin(req.body);
+      console.log(validate.data);
+
       const { email, contraseña } = validate.data;
 
       const user = await AuthModel.verifyByEmail(email);
@@ -46,7 +48,6 @@ export class AuthController {
       if (!contraseña) {
         return res.status(404).json({ message: "Falta una contraseña" });
       }
-      console.log(user.contraseña);
       if (!user) {
         return res
           .status(404)
@@ -69,11 +70,13 @@ export class AuthController {
         sameSite: "Strict",
         maxAge: 1000 * 60 * 60,
       };
-
       return res
-        .status(201)
+        .status(200)
         .cookie("access_token", token, options)
-        .json({ message: "Login exitoso" });
+        .json({
+          message: "Login exitoso",
+          user: { id: user.user_id, email: user.email },
+        });
     } catch (error) {
       return res
         .status(500)

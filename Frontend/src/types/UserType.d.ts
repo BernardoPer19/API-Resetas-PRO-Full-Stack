@@ -7,5 +7,6 @@ export interface UserType {
   creacionCuenta: string;
 }
 
-export type UserLoginType = Omit<UserType, "creacionCuenta", user_name>;
+export type UserLoginType = Omit<UserType, "creacionCuenta" | "nombre" | "fotoPerfil">;
+
 export type UserRegisterType = Omit<UserType, fotoPerfil>;

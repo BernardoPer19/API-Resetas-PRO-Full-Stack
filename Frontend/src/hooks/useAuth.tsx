@@ -32,10 +32,14 @@ export const useAuth = () => {
   const login = async (user: UserLoginType): Promise<void> => {
     try {
       const response = await loginService(user);
+      console.log("el response: ", response);
+      
       if (response) {
         setUser(response);
         setIsAuthenticated(true);
+        console.log("aaa", isAuthenticated);
       }
+      
     } catch (error) {
       if (error instanceof AxiosError) {
         throw new ValidationError(
@@ -46,6 +50,10 @@ export const useAuth = () => {
       throw handleError(error);
     }
   };
+
+
+
+
   const logout = async () => {};
   const verify = async () => {};
 

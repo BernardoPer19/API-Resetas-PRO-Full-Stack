@@ -3,7 +3,7 @@ import axios from "../api/axios"; // importás la instancia personalizada
 import { AxiosError } from "axios";
 import handleError from "../services/ErrorServices";
 import { ValidationError } from "../errors/CustomError";
-import { UserType } from "../types/UserType";
+import { UserLoginType, UserType } from "../types/UserType";
 
 // Register
 export const registerRequest = async (user: UserType) => {
@@ -23,10 +23,11 @@ export const registerRequest = async (user: UserType) => {
 };
 
 // Login
-export const loginUser = async (user: UserType) => {
+export const loginUser = async (user: UserLoginType) => {
   try {
     const response = await axios.post("/login", user);
     return response.data;
+    
   } catch (error) {
     console.log("Error en login:", error);
 
