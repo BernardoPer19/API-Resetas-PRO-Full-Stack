@@ -16,6 +16,9 @@ AuthRouter.get("/logout", AuthController.logout);
 // Protected route
 AuthRouter.get("/protected", authenticate, AuthController.protectedRoute);
 
+//VerifY Route
+AuthRouter.get("/verify",authenticate, verify);
+
 export default AuthRouter;
 
 

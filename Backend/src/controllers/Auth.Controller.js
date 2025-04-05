@@ -1,13 +1,11 @@
 import { AuthModel } from "../model/AuthModel.js";
 import { validateLogin, validateRegister } from "../schema/AuthSchema.js";
 
-
-
 export class AuthController {
   static async registerUser(req, res) {
     try {
-      const validate =  validateRegister(req.body);
-      
+      const validate = validateRegister(req.body);
+
       const { nombre, email, contraseña, fotoPerfil, creacionCuenta } =
         validate.data;
 
@@ -31,8 +29,6 @@ export class AuthController {
         creacionCuenta
       );
 
-      
-
       return res.status(201).json({
         message: "Usuario registrado",
       });
@@ -43,15 +39,13 @@ export class AuthController {
   static async loginUser(req, res) {
     try {
       const validate = validateLogin(req.body);
-      
       const { email, contraseña } = validate.data;
-      
+
       const user = await AuthModel.verifyByEmail(email);
-      
+
       if (!contraseña) {
         return res.status(404).json({ message: "Falta una contraseña" });
       }
-      
       console.log(user.contraseña);
       if (!user) {
         return res
@@ -63,8 +57,6 @@ export class AuthController {
         contraseña,
         user.contraseña
       );
-
-
 
       if (!validPassword) {
         return res.status(401).json({ message: "La contraseña es incorrecta" });
@@ -109,3 +101,32 @@ export class AuthController {
     }
   }
 }
+
+export const logout = async (req, res) => {
+  try {
+    res.clearCookie("access_token", { httpOnly: true, sameSite: "Strict" });
+
+    return res.status(200).json({ message: "Logout exitoso" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Error al cerrar sesión", error: error.message });
+  }
+};
+
+export const verify = async (req, res) => {
+  try {
+    console.log("usuario autenticado:", req.user);
+
+    const { email } = req.user;
+
+    const userFound = await AuthModel(email);
+    if (!userFound) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    res.json({ message: "Usuario autenticado", user: userFound });
+  } catch (error) {
+    return res.status(500).json({ message: "Error en la autenticación" });
+  }
+};
