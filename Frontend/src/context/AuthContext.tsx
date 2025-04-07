@@ -7,8 +7,8 @@ interface AuthContextProps {
   setUser: React.Dispatch<SetStateAction<UserType | null>>;
   isAuthenticated: boolean;
   setIsAuthenticated: React.Dispatch<SetStateAction<boolean>>;
-  error: string;
-  setError: React.Dispatch<SetStateAction<string>>;
+  authError: string;
+  setAuthError: React.Dispatch<SetStateAction<string>>;
   login: (user: UserLoginType) => Promise<void>;
   register: (user: UserType) => Promise<void>;
   logout: () => Promise<void>;
@@ -25,12 +25,12 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const {
-    error,
+    authError,
     isAuthenticated,
     login,
     logout,
     register,
-    setError,
+    setAuthError,
     setIsAuthenticated,
     user,
     setUser,
@@ -42,8 +42,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUser,
     isAuthenticated,
     setIsAuthenticated,
-    error,
-    setError,
+    authError,
+    setAuthError,
     login,
     register,
     logout,

@@ -7,7 +7,7 @@ import handleError from "./ErrorServices";
 export const registerService = async (user: UserType): Promise<UserType> => {
   try {
     const result = await registerRequest(user);
-    
+
     return result.data;
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -22,11 +22,14 @@ export const registerService = async (user: UserType): Promise<UserType> => {
 export const loginService = async (user: UserLoginType): Promise<UserType> => {
   try {
     const result = await loginUser(user);
-    console.log(result);
 
     return result;
   } catch (error) {
-    console.error("Error en el registro:", error);
-    throw new Error("Error en el registro de datos");
+    console.log(error);
+
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw handleError(error);
   }
 };

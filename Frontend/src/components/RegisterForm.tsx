@@ -4,7 +4,9 @@ import { UserType } from "../types/UserType";
 import { useAuthContext } from "../hooks/useContext";
 
 const RegisterForm: React.FC = () => {
-  const { register: registerUser, error } = useAuthContext();
+  const { register: registerUser, authError } = useAuthContext();
+
+  console.log("AuthError desde el componente:", authError);
 
   const {
     register,
@@ -16,7 +18,7 @@ const RegisterForm: React.FC = () => {
     try {
       await registerUser(data);
     } catch (err) {
-      console.error("Error al registrar:", err);
+      console.log(err);
     }
   };
 
@@ -27,27 +29,33 @@ const RegisterForm: React.FC = () => {
           Crear Cuenta
         </h2>
 
-        {error && (
-          <div className="mb-4 text-sm text-red-600 font-medium bg-red-100 px-4 py-2 rounded-lg shadow-md">
-            {error}
+        {authError && (
+          <div className="mb-4 text-sm text-white font-medium bg-red-700 px-4 py-2 rounded-lg shadow-md">
+            {authError}
           </div>
         )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
-            <label className="block mb-2 text-lg font-medium text-gray-700">Nombre</label>
+            <label className="block mb-2 text-lg font-medium text-gray-700">
+              Nombre
+            </label>
             <input
               type="text"
               {...register("nombre", { required: "El nombre es requerido" })}
               className="w-full px-6 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300"
             />
             {errors.nombre && (
-              <p className="text-red-500 text-sm mt-2">{errors.nombre.message}</p>
+              <p className="text-red-500 text-sm mt-2">
+                {errors.nombre.message}
+              </p>
             )}
           </div>
 
           <div>
-            <label className="block mb-2 text-lg font-medium text-gray-700">Correo</label>
+            <label className="block mb-2 text-lg font-medium text-gray-700">
+              Correo
+            </label>
             <input
               type="email"
               {...register("email", {
@@ -60,12 +68,16 @@ const RegisterForm: React.FC = () => {
               className="w-full px-6 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300"
             />
             {errors.email && (
-              <p className="text-red-500 text-sm mt-2">{errors.email.message}</p>
+              <p className="text-red-500 text-sm mt-2">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
           <div>
-            <label className="block mb-2 text-lg font-medium text-gray-700">Contraseña</label>
+            <label className="block mb-2 text-lg font-medium text-gray-700">
+              Contraseña
+            </label>
             <input
               type="password"
               {...register("contraseña", {
@@ -75,7 +87,9 @@ const RegisterForm: React.FC = () => {
               className="w-full px-6 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300"
             />
             {errors.contraseña && (
-              <p className="text-red-500 text-sm mt-2">{errors.contraseña.message}</p>
+              <p className="text-red-500 text-sm mt-2">
+                {errors.contraseña.message}
+              </p>
             )}
           </div>
 

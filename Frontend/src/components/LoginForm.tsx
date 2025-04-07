@@ -4,7 +4,7 @@ import { useAuthContext } from "../hooks/useContext";
 import { UserLoginType } from "../types/UserType";
 
 const LoginForm: React.FC = () => {
-  const { login: loginUser, error } = useAuthContext();
+  const { login: loginUser, authError } = useAuthContext();
 
   const {
     register,
@@ -16,7 +16,7 @@ const LoginForm: React.FC = () => {
     try {
       await loginUser(data);
     } catch (err) {
-      console.error("Error al registrar:", err);
+      console.error("Error al hacer login:", err);
     }
   };
 
@@ -27,9 +27,9 @@ const LoginForm: React.FC = () => {
           Iniciar Sesión
         </h2>
 
-        {error && (
-          <div className="mb-4 text-sm text-red-600 font-medium bg-red-100 px-4 py-2 rounded-lg shadow-md">
-            {error}
+        {authError && (
+          <div className="mb-4 text-sm text-white font-medium bg-red-700 px-4 py-2 rounded-lg shadow-md">
+            {authError}
           </div>
         )}
 
@@ -50,7 +50,9 @@ const LoginForm: React.FC = () => {
               className="w-full px-6 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300"
             />
             {errors.email && (
-              <p className="text-red-500 text-sm mt-2">{errors.email.message}</p>
+              <p className="text-red-500 text-sm mt-2">
+                {errors.email.message}
+              </p>
             )}
           </div>
 

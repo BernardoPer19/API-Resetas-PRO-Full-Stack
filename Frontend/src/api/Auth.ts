@@ -1,8 +1,7 @@
 // src/api/Auth.ts
-import axios from "../api/axios"; // importás la instancia personalizada
 import { AxiosError } from "axios";
+import axios from "../api/axios"; // importás la instancia personalizada
 import handleError from "../services/ErrorServices";
-import { ValidationError } from "../errors/CustomError";
 import { UserLoginType, UserType } from "../types/UserType";
 
 // Register
@@ -12,34 +11,24 @@ export const registerRequest = async (user: UserType) => {
     return response.data;
   } catch (error) {
     console.log("Error en register:", error);
-
-    if (error instanceof AxiosError) {
-      throw new ValidationError(
-        error.response?.data?.message || "Error en el registro"
-      );
-    }
-    throw handleError(error);
   }
 };
 
-// Login
 export const loginUser = async (user: UserLoginType) => {
   try {
     const response = await axios.post("/login", user);
     return response.data;
-    
-  } catch (error) {
-    console.log("Error en login:", error);
+  } catch (error: unknown) {
+    console.log("Error backend:", error);
 
-    if (error instanceof AxiosError) {
-      throw new ValidationError(
-        error.response?.data?.message || "Error en el login"
-      );
+    if (error instanceof AxiosError && error.response) {
+      const errorMessage = error.response.data.message;
+      throw new Error(errorMessage);
     }
-    throw handleError(error);
+    const handledError = handleError(error);
+    throw new Error(handledError.body);
   }
 };
-
 // Logout
 export const logoutRequest = async () => {
   try {
