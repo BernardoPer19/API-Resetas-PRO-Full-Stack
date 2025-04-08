@@ -123,7 +123,7 @@ export const verify = async (req, res) => {
 
     const { email } = req.user;
 
-    const userFound = await AuthModel(email);
+    const userFound = await AuthModel.verifyByEmail(email);
     if (!userFound) {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }

@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import cors from "cors";
 import AuthRouter from "./routes/Auth.routes.js";
+import RecipesRouter from "./routes/Recetas.routes.js";
 
 const app = express();
 const PORT = 3000;
@@ -20,7 +21,7 @@ app.use(morgan("dev"));
 
 
 app.use("/", AuthRouter);
-
+app.use("/", RecipesRouter)
 // Iniciar el servidor
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);

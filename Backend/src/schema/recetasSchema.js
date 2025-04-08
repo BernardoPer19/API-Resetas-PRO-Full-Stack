@@ -4,7 +4,7 @@ import z from 'zod';
     nombre: z.string().min(3,"necesita al menos 3 caracteres"),
     descripcion:z.string().min(3, "necesita al menos 3 caracteres"),
     pais_id:z.number().positive().int(),
-    difiultad_id: z.number().positive().int(),
+    dificultad_id: z.number().positive().int(),
     imagen_url:z.string(),
     tipoDia_id: z.number().positive().int(),
     categoria_id: z.number().positive().int(),
