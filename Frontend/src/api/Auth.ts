@@ -8,9 +8,18 @@ import { UserLoginType, UserType } from "../types/UserType";
 export const registerRequest = async (user: UserType) => {
   try {
     const response = await axios.post("/register", user);
+    console.log(response.data);
+
     return response.data;
   } catch (error) {
-    console.log("Error en register:", error);
+    console.log("Error backend:", error);
+
+    if (error instanceof AxiosError && error.response) {
+      const errorMessage = error.response.data.message;
+      throw new Error(errorMessage);
+    }
+    const handledError = handleError(error);
+    throw new Error(handledError.body);
   }
 };
 
@@ -40,9 +49,11 @@ export const logoutRequest = async () => {
 };
 
 // Verify Token
-export const verifyRequest = async () => {
+export const verifyTokenRequest = async () => {
   try {
     const response = await axios.get("/verify");
+    console.log(response.data);
+
     return response.data;
   } catch (error) {
     console.log("Error en verify:", error);

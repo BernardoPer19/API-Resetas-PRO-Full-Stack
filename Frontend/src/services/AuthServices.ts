@@ -1,6 +1,4 @@
-import { AxiosError } from "axios";
 import { loginUser, registerRequest } from "../api/Auth";
-import { ValidationError } from "../errors/CustomError";
 import { UserLoginType, UserType } from "../types/UserType";
 import handleError from "./ErrorServices";
 
@@ -10,10 +8,10 @@ export const registerService = async (user: UserType): Promise<UserType> => {
 
     return result.data;
   } catch (error) {
-    if (error instanceof AxiosError) {
-      throw new ValidationError(
-        error.response?.data.message || "Al registrar datos"
-      );
+    console.log(error);
+
+    if (error instanceof Error) {
+      throw new Error(error.message);
     }
     throw handleError(error);
   }

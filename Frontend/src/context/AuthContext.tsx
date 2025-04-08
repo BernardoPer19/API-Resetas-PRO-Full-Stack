@@ -12,7 +12,8 @@ interface AuthContextProps {
   login: (user: UserLoginType) => Promise<void>;
   register: (user: UserType) => Promise<void>;
   logout: () => Promise<void>;
-  verify: () => Promise<void>;
+  loading: boolean;
+  setLoading: React.Dispatch<SetStateAction<boolean>>;
 }
 
 export const AuthContext = createContext<AuthContextProps | undefined>(
@@ -34,7 +35,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setIsAuthenticated,
     user,
     setUser,
-    verify,
+    loading,
+    setLoading,
   } = useAuth();
 
   const value: AuthContextProps = {
@@ -47,7 +49,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     login,
     register,
     logout,
-    verify,
+    loading,
+    setLoading,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -11,7 +11,7 @@ function LoginPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      naviagte("/");
+      naviagte("/profile");
     }
   }, [isAuthenticated]);
 
