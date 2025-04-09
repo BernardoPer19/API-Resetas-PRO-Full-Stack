@@ -1,9 +1,11 @@
-import React from 'react'
+import RecipeSection from "../sections/recipes/RecipeSection";
 
 function RecipePage() {
   return (
-    <div>RecipePage</div>
-  )
+    <main>
+      <RecipeSection />
+    </main>
+  );
 }
 
-export default RecipePage
+export default RecipePage;

@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { UserType } from "../types/UserType";
 import { useAuthContext } from "../hooks/useContext";
+import { Link } from "react-router-dom";
 
 const RegisterForm: React.FC = () => {
   const { register: registerUser, authError } = useAuthContext();
@@ -100,6 +101,12 @@ const RegisterForm: React.FC = () => {
             Registrarse
           </button>
         </form>
+        <p className="my-4">
+          Ya tienes una cuenta?{" "}
+          <span className="text-cyan-600">
+            <Link to={"/login"}>Login</Link>
+          </span>
+        </p>
       </div>
     </div>
   );

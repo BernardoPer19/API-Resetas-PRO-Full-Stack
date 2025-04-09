@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useAuthContext } from "../hooks/useContext";
 import { UserLoginType } from "../types/UserType";
+import { Link } from "react-router-dom";
 
 const LoginForm: React.FC = () => {
   const { login: loginUser, authError } = useAuthContext();
@@ -82,6 +83,12 @@ const LoginForm: React.FC = () => {
             Iniciar Sesión
           </button>
         </form>
+        <p className="my-4">
+          No tienes una cuenta?{" "}
+          <span className="text-cyan-600">
+            <Link to={"/register"}>Sing Up</Link>
+          </span>
+        </p>
       </div>
     </div>
   );

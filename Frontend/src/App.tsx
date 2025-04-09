@@ -6,12 +6,14 @@ import RecipePage from "./pages/RecipePage";
 import ProfilePage from "./pages/ProfilePage";
 import FavoritesPage from "./pages/FavoritesPage";
 import "./App.css";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./pages/ProtectedRoute";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <>
       <BrowserRouter>
+        <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
