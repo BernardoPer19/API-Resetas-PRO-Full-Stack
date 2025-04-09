@@ -3,9 +3,9 @@ import handleError from "../services/ErrorServices";
 
 export const getRecipesRequest = async () => {
   try {
-    const response = await axios.get("/recetas");
+    const response = await axios.get("http://localhost:3000/recetas");
     console.log(response);
-    
+
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError && error.response) {

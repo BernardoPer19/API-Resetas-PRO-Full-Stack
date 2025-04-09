@@ -1,8 +1,11 @@
 import React from 'react'
+import RecipesList from '../../components/RecipesList'
 
 function AllRecipes() {
   return (
-    <div>AllRecipes</div>
+    <div>
+      <RecipesList/>
+    </div>
   )
 }
 
