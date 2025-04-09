@@ -15,7 +15,6 @@ function RecipesCard({ recipe }: Props) {
     tipodia_nombre,
   } = recipe;
 
-  console.log(tipodia_nombre);
   
 
   return (
