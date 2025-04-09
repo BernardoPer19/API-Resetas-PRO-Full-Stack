@@ -3,9 +3,9 @@ import { recetaController } from "../controllers/Recetas.controller.js";
 
 const RecipesRouter = Router();
 
-RecipesRouter.get("/recipes", recetaController.obtenerRecetas);
-RecipesRouter.post("/recipes", recetaController.crearReceta);
-RecipesRouter.delete("/recipes", recetaController.eliminarRecetas);
-RecipesRouter.put("/recipes", recetaController.actualizarReceta);
+RecipesRouter.get("/recetas", recetaController.obtenerRecetas);
+RecipesRouter.post("/recetas", recetaController.crearReceta);
+RecipesRouter.delete("/recetas", recetaController.eliminarRecetas);
+RecipesRouter.put("/recetas", recetaController.actualizarReceta);
 
 export default RecipesRouter;

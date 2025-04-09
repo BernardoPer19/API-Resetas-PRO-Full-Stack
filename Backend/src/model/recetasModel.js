@@ -3,7 +3,27 @@ import pool from "../db/db.js";
 export class recetaMode {
   static obtenerRecetass = async () => {
     try {
-      const query = "SELECT * FROM recetas_tb";
+      const query = `
+      SELECT 
+        r.nombre AS receta_nombre, 
+        r.descripcion, 
+        r.imagen_url, 
+        p.nombre AS pais_nombre, 
+        d.nombre AS dificultad_nombre, 
+        c.nombre AS categoria_nombre, 
+        t.nombre AS tipoDia_nombre
+      FROM 
+        recetas_tb r
+      JOIN 
+        pais_tb p ON r.pais_id = p.pais_id
+      JOIN 
+        dificultad_tb d ON r.dificultad_id = d.dificultad_id
+      JOIN 
+        categorias_tb c ON r.categoria_id = c.categoria_id
+      JOIN 
+        "tipoDia_tb" t ON r."tipoDia_id" = t."tipoDia_id";
+    `;
+
       const { rows } = await pool.query(query);
       console.log(rows);
 
@@ -24,12 +44,21 @@ export class recetaMode {
     categoria_id,
     comentario_id,
   }) => {
-    console.log("Datos recibidos:", { nombre, descripcion, pais_id, dificultad_id, imagen_url, tipoDia_id, categoria_id, comentario_id });
+    console.log("Datos recibidos:", {
+      nombre,
+      descripcion,
+      pais_id,
+      dificultad_id,
+      imagen_url,
+      tipoDia_id,
+      categoria_id,
+      comentario_id,
+    });
     try {
       const query = `INSERT INTO recetas_tb(
             nombre, descripcion, pais_id, dificultad_id, imagen_url, "tipoDia_id", categoria_id, comentario_id)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`;
- 
+
       const { rows } = await pool.query(query, [
         nombre,
         descripcion,
@@ -40,14 +69,13 @@ export class recetaMode {
         categoria_id,
         comentario_id,
       ]);
- 
+
       return rows[0];
     } catch (error) {
       console.error("Error al crear las recetas:", error.message);
       throw new Error(error.message);
     }
   };
- 
 
   static eliminarRecetas = async (id) => {
     try {
