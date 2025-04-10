@@ -69,18 +69,15 @@ export const useAuth = () => {
     const verifyUser = async () => {
       try {
         const res = await verifyTokenRequest();
-        // console.log("Respuesta de verificación del token:", res);
 
-        if (!res.data) {
-          console.log("Respuesta sin datos");
+        if (!res.user) {
+          setUser(null);
           setIsAuthenticated(false);
         } else {
-          // console.log("Token verificado con éxito");
           setIsAuthenticated(true);
-          setUser(res.data);
+          setUser(res.user); 
         }
       } catch (error) {
-        console.error("Error verificando el token:", error);
         setIsAuthenticated(false);
       } finally {
         setLoading(false);
@@ -89,6 +86,7 @@ export const useAuth = () => {
 
     verifyUser();
   }, []);
+
   return {
     register,
     login,

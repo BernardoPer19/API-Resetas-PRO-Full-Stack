@@ -28,7 +28,6 @@ const FilterRecipesSection = () => {
   return (
     <section className="max-w-[1280px] m-auto py-10 bg-white rounded-2xl space-y-4">
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-        {/* Buscador por nombre */}
         <div className="flex w-full sm:w-[300px]">
           <input
             type="text"

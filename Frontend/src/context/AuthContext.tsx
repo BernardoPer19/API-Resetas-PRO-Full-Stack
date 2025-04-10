@@ -11,7 +11,7 @@ interface AuthContextProps {
   setAuthError: React.Dispatch<SetStateAction<string>>;
   login: (user: UserLoginType) => Promise<void>;
   register: (user: UserType) => Promise<void>;
-  logout: () => Promise<void>;
+  logout: () => void;
   loading: boolean;
   setLoading: React.Dispatch<SetStateAction<boolean>>;
 }
