@@ -64,8 +64,10 @@ export class AuthController {
       }
 
       const token = AuthModel.createToken(user);
+      console.log(token);
+      
       const options = {
-        httpOnly: true,
+        httpOnly: false,
         secure: process.env.NODE_ENV === "production",
         sameSite: "Strict",
         maxAge: 1000 * 60 * 60,
@@ -105,17 +107,7 @@ export class AuthController {
   }
 }
 
-export const logout = async (req, res) => {
-  try {
-    res.clearCookie("access_token", { httpOnly: true, sameSite: "Strict" });
 
-    return res.status(200).json({ message: "Logout exitoso" });
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Error al cerrar sesión", error: error.message });
-  }
-};
 
 export const verify = async (req, res) => {
   try {

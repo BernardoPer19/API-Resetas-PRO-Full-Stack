@@ -4,19 +4,18 @@ import { JWT_PASSWORD_SECRET } from "../confing.js";
 export const authenticate = (req, res, next) => {
   try {
     const token = req.cookies.access_token;
+    console.log("token",token);
+    
+    if (!token) {
+      return res.status(401).json({ message: "Token no encontrado" });
+    }
 
-  if (!token) {
-    res.status(400).json({ message: "verificar la creacion del token" });
-    throw new Error("token expirado o iunvalido!");
-  }
+    const decoded = jwt.verify(token, JWT_PASSWORD_SECRET);
 
-  const decoed = jwt.verify(token, JWT_PASSWORD_SECRET);
-  console.log("decodeeeeeeeeeeeeeee", decoed);
-  
-  req.user = decoed
-
-  next()
+    req.user = decoded;
+    next();
   } catch (error) {
-    res.status(500).json(error.message)
+    console.error("Error al verificar el token:", error.message);
+    return res.status(403).json({ message: "Token inválido o expirado" });
   }
 };

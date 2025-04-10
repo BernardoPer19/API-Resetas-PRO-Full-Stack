@@ -5,7 +5,6 @@ export class recetaController {
   static obtenerRecetas = async (req, res) => {
     try {
       const result = await recetaMode.obtenerRecetass();
-      console.log(result);
 
       return res.status(200).json(result);
     } catch (error) {

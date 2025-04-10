@@ -1,5 +1,5 @@
 import { SALTS_ROUNDS, JWT_PASSWORD_SECRET } from "../confing.js";
-import bcrypt from 'bcrypt'
+import bcrypt from "bcrypt";
 import pool from "../db/db.js";
 import jwt from "jsonwebtoken";
 
@@ -11,23 +11,24 @@ export class AuthModel {
           id: user.user_id,
           name: user.user_name,
           email: user.email,
-          createAcc: user.createAcc,
+          creacionCuenta: user.creacionCuenta,
         },
         JWT_PASSWORD_SECRET,
         { expiresIn: "24h" }
       );
+      console.log("token2:", token);
+
       return token;
     } catch (error) {
       throw new Error("Error generating token: " + error.message);
     }
   }
-  
 
   static async hashPassword(password) {
     const hashingPassword = await bcrypt.hash(password, SALTS_ROUNDS);
     return hashingPassword;
   }
-  
+
   static async comparePassword(plainPassword, hashedPassword) {
     try {
       return await bcrypt.compare(plainPassword, hashedPassword);
@@ -83,5 +84,4 @@ export class AuthModel {
       throw new Error("Error verifying email: " + error.message);
     }
   }
-
 }
