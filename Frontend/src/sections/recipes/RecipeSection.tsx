@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ShareButton from "../../components/ShareButton";
+import ShareButton from "../../components/UI/ShareButton";
 
 function RecipeSection() {
   const [showOptions, setShowOptions] = useState(false);

@@ -1,6 +1,6 @@
 import React, { createContext, useState, useMemo, useCallback } from "react";
-import { useFetchRecipes } from "../hooks/useFetchRecipes";
 import { RecipeType } from "../types/RecipeType";
+import { useFetchRecipes } from "../hooks/useFetchRecipes";
 
 // Tipado del contexto
 interface RecipesContextProps {

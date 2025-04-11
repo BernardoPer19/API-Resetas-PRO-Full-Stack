@@ -1,5 +1,5 @@
-import RecipesList from "../components/RecipesList";
-import UserProfile from "../components/UserProfile"; // Asegúrate de tener la ruta correcta
+import UserProfile from "../components/UI/UserProfile";
+import UserRecipesList from "../components/UserRecipesList";
 import { useAuthContext } from "../hooks/useContext";
 
 const ProfilePage = () => {
@@ -16,12 +16,11 @@ const ProfilePage = () => {
           Perfil del Usuario
         </h1>
 
-        {/* Pasar los datos del usuario autenticado */}
         <UserProfile user={user} />
       </div>
 
-    <h1 className="text-5xl font-semibold text-center p-10">Tus Recetas</h1>
-
+      <h1 className="text-5xl font-semibold text-center p-10">Tus Recetas</h1>
+      <UserRecipesList />
     </main>
   );
 };

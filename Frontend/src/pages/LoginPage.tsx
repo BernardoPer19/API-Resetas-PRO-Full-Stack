@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import LoginForm from "../components/LoginForm";
 import { useAuthContext } from "../hooks/useContext";
 import { useEffect } from "react";
+import LoginForm from "../components/Auth/LoginForm";
 
 function LoginPage() {
   const { isAuthenticated } = useAuthContext();

@@ -7,8 +7,9 @@ import ProfilePage from "./pages/ProfilePage";
 import FavoritesPage from "./pages/FavoritesPage";
 import "./App.css";
 import ProtectedRoute from "./pages/ProtectedRoute";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/UI/Navbar";
 import { RecipesProvider } from "./context/RecipesContext";
+import RecipeDetail from "./pages/RecipeDetail";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
 
             <Route path="/recetas" element={<RecipePage />} />
+            <Route path="/recetas/:id" element={<RecipeDetail />} />
 
             {/* Protected Route Here! */}
             <Route element={<ProtectedRoute />}>

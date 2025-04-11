@@ -1,6 +1,6 @@
 import { LogOut } from "lucide-react"; // Solo los iconos que usas
-import { useAuthContext } from "../hooks/useContext";
-import { UserType } from "../types/UserType";
+import { UserType } from "../../types/UserType";
+import { useAuthContext } from "../../hooks/useContext";
 
 interface UserProfileProps {
   user: UserType;
