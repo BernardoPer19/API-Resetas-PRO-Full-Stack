@@ -4,7 +4,8 @@ export class recetaMode {
   static obtenerRecetass = async () => {
     try {
       const query = `
-      SELECT 
+     SELECT 
+		    r.receta_id,
         r.nombre AS receta_nombre, 
         r.descripcion, 
         r.imagen_url, 
@@ -21,16 +22,53 @@ export class recetaMode {
       JOIN 
         categorias_tb c ON r.categoria_id = c.categoria_id
       JOIN 
-        "tipoDia_tb" t ON r."tipoDia_id" = t."tipoDia_id";
+        "tipoDia_tb" t ON r."tipoDia_id" = t."tipoDia_id"
     `;
 
       const { rows } = await pool.query(query);
-      console.log(rows);
 
       return rows;
     } catch (error) {
       console.error("Error al obtener las recetas:", error.message);
       throw new Error("Error al obtener las recetas en la DB");
+    }
+  };
+
+  static obtenerRecetaPorId = async (id) => {
+    try {
+      const query = `
+        SELECT 
+          r.receta_id,
+          r.nombre AS receta_nombre, 
+          r.descripcion, 
+          r.imagen_url, 
+          p.nombre AS pais_nombre, 
+          d.nombre AS dificultad_nombre, 
+          c.nombre AS categoria_nombre, 
+          t.nombre AS tipoDia_nombre
+        FROM 
+          recetas_tb r
+        JOIN 
+          pais_tb p ON r.pais_id = p.pais_id
+        JOIN 
+          dificultad_tb d ON r.dificultad_id = d.dificultad_id
+        JOIN 
+          categorias_tb c ON r.categoria_id = c.categoria_id
+        JOIN 
+          "tipoDia_tb" t ON r."tipoDia_id" = t."tipoDia_id"
+        WHERE r.receta_id = $1
+      `;
+
+      const { rows } = await pool.query(query, [id]);
+
+      if (rows.length === 0) {
+        throw new Error("Receta no encontrada");
+      }
+
+      return rows[0];
+    } catch (error) {
+      console.error("Error al obtener la receta por ID:", error.message);
+      throw new Error("Error al obtener la receta en la DB");
     }
   };
 

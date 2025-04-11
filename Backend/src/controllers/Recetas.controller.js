@@ -22,24 +22,26 @@ export class recetaController {
         return res.status(400).json({ message: "No se encontró la receta" });
       }
 
-      res.status(201).json(result); 
+      res.status(201).json(result);
     } catch (error) {
       console.error(error.message);
       res.status(500).json({ message: "Error al crear la receta" });
     }
   };
 
+  static obtenerRecetasID = async (req, res) => {
+    const { id } = req.params;
 
-
-
-
-
-
-
-
-
-
-
+    try {
+      const receta = await recetaMode.obtenerRecetaPorId(id);
+      res.json(receta);
+    } catch (error) {
+      console.error("Error en el controlador:", error.message);
+      res
+        .status(404)
+        .json({ message: error.message || "No se pudo obtener la receta" });
+    }
+  };
 
   //SIN USO PARA EL MVP
   static eliminarRecetas = async (req, res) => {

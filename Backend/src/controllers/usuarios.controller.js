@@ -8,6 +8,8 @@ export class usuarioController {
 
     try {
       const result = await usuarioModel.obtenerRecetaUsuarioModel(user_id);
+      console.log(result);
+
       res.status(200).json(result);
     } catch (error) {
       res
@@ -52,7 +54,7 @@ export class usuarioController {
       );
 
       console.log("asdasd", result);
-      
+
       if (!result) {
         return res
           .status(400)

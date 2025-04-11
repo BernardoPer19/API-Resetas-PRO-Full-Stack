@@ -4,6 +4,7 @@ import { recetaController } from "../controllers/Recetas.controller.js";
 const RecipesRouter = Router();
 
 RecipesRouter.get("/recetas", recetaController.obtenerRecetas);
+RecipesRouter.get("/recetas/:id", recetaController.obtenerRecetasID);
 RecipesRouter.post("/recetas", recetaController.crearReceta);
 RecipesRouter.delete("/recetas", recetaController.eliminarRecetas);
 RecipesRouter.put("/recetas", recetaController.actualizarReceta);
