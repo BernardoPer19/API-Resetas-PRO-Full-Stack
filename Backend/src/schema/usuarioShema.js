@@ -9,7 +9,8 @@ export const validateUsuario = (data) => {
   const result = usuarioSchema.safeParse(data);
 
   if (!result.success) {
-    return { valid: false, errors: result.error.format() };
+    const errors = result.error.format();
+    return { valid: false, errors }; 
   }
   return { valid: true, data: result.data };
-}
+};

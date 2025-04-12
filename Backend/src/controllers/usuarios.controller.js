@@ -20,15 +20,34 @@ export class usuarioController {
 
   static crearRecetaUsuario = async (req, res) => {
     const user_id = req.user.id;
+    const receta_id = req.params.id;
+
+    if (isNaN(receta_id) || Number(receta_id) <= 0) {
+      return res
+        .status(400)
+        .json({ message: "El ID de la receta no es válido." });
+    }
+
     try {
-      const vali = validateUsuario(req.body);
-      if (!vali.valid) {
-        return res
-          .status(400)
-          .json({ message: "receta de usuario no validada" });
+      const { valid, errors } = validateUsuario({
+        user_id,
+        receta_id: Number(receta_id),
+      });
+
+      if (!valid) {
+        return res.status(400).json({ message: "Error de validación", errors });
       }
 
-      const { receta_id } = vali.data;
+      const recetaExistente = await usuarioModel.verificarRecetaExistente(
+        user_id,
+        receta_id
+      );
+      if (recetaExistente) {
+        return res
+          .status(400)
+          .json({ message: "Esta receta ya está asociada a tu cuenta." });
+      }
+
       const result = await usuarioModel.crearRecetaUsuarioModel(
         user_id,
         receta_id
@@ -36,7 +55,8 @@ export class usuarioController {
 
       res.status(201).json(result);
     } catch (error) {
-      res.status(500).json(error.message);
+      console.error(error);
+      res.status(500).json({ message: "Hubo un error al guardar la receta." });
     }
   };
 

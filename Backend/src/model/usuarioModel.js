@@ -23,6 +23,52 @@ export class usuarioModel {
       throw new Error("error al obtener datos del usuario en la db");
     }
   };
+
+  static verificarRecetaExistente = async (user_id, receta_id) => {
+    try {
+      const query = `
+        SELECT 1 
+        FROM recetas_usuario_tb
+        WHERE user_id = $1 AND receta_id = $2;
+      `;
+
+      const { rows } = await pool.query(query, [user_id, receta_id]);
+
+      if (rows.length > 0) {
+        return true; 
+      }
+
+      return false;
+    } catch (error) {
+      console.error("Error al verificar la receta:", error.message);
+      throw new Error("Error al verificar la receta en la base de datos.");
+    }
+  };
+
+  static obtenerRecetaPorId = async (receta_id) => {
+    try {
+      const query = `SELECT 
+                        r.nombre AS receta_nombre,
+                        r.descripcion,
+                        r.imagen_url,
+                        p.nombre AS pais_nombre
+                      FROM recetas_tb r
+                      INNER JOIN pais_tb p ON r.pais_id = p.pais_id
+                      WHERE r.receta_id = $1;`;
+
+      const { rows } = await pool.query(query, [receta_id]);
+
+      if (rows.length === 0) {
+        return null;
+      }
+
+      return rows[0];
+    } catch (error) {
+      console.error("Error al obtener la receta:", error.message);
+      throw new Error("Error al obtener la receta de la base de datos.");
+    }
+  };
+
   static crearRecetaUsuarioModel = async (user_id, receta_id) => {
     try {
       const query = `INSERT INTO recetas_usuario_tb(user_id, receta_id) 
@@ -33,7 +79,7 @@ export class usuarioModel {
 
       return rows[0];
     } catch (error) {
-      console.error("Error al insertar en la base de datos:", error); // Aquí mostramos el error real
+      console.error("Error al insertar en la base de datos:", error);
       throw new Error(`Error al crear la receta del usuario: ${error.message}`);
     }
   };
