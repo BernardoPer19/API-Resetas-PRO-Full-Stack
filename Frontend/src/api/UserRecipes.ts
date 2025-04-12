@@ -6,7 +6,7 @@ export const getUserRecipesRequest = async () => {
   try {
     const response = await axios.get("/profile");
     console.log(response.data);
-    
+
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError && error.response) {
@@ -18,9 +18,11 @@ export const getUserRecipesRequest = async () => {
   }
 };
 
-export const createUserRecipeRequest = async () => {
+export const createUserRecipeRequest = async (recetaId: number) => {
   try {
-    const response = await axios.post("http://localhost:3000/profile");
+    const response = await axios.post(`/recetas/${recetaId}`, {
+      receta_id: recetaId,
+    }); 
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError && error.response) {

@@ -33,7 +33,8 @@ export const useFetchRecipes = () => {
       setLoading(false);
     }
   };
-  // 🚀 Hacer el fetch solo si recipes está vacío
+
+  
   useEffect(() => {
     if (recipes.length === 0) {
       getRecipes();

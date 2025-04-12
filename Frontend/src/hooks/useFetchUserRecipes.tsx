@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { getUserRecipesRequest } from "../api/UserRecipes";
-import { UserRecipeType } from "../types/RecipeType";
+import { RecipeType } from "../types/RecipeType";
 
 export const useFetchUserRecipes = () => {
-  const [userRecipes, setUserRecipes] = useState<UserRecipeType[]>([]);
+  const [userRecipes, setUserRecipes] = useState<RecipeType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 

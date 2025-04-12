@@ -10,28 +10,31 @@ import ProtectedRoute from "./pages/ProtectedRoute";
 import Navbar from "./components/UI/Navbar";
 import { RecipesProvider } from "./context/RecipesContext";
 import RecipeDetail from "./pages/RecipeDetail";
+import { FavoritesProvider } from "./context/FavoritesContex";
 
 function App() {
   return (
     <>
       <RecipesProvider>
-        <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
+        <FavoritesProvider>
+          <BrowserRouter>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
 
-            <Route path="/recetas" element={<RecipePage />} />
-            <Route path="/recetas/:id" element={<RecipeDetail />} />
+              <Route path="/recetas" element={<RecipePage />} />
+              <Route path="/recetas/:id" element={<RecipeDetail />} />
 
-            {/* Protected Route Here! */}
-            <Route element={<ProtectedRoute />}>
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/favorites" element={<FavoritesPage />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+              {/* Protected Route Here! */}
+              <Route element={<ProtectedRoute />}>
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/favorites" element={<FavoritesPage />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </FavoritesProvider>
       </RecipesProvider>
     </>
   );
